@@ -4,16 +4,44 @@
 
 
 class fraction(object):
-    def __init__(self,n=None,d=None,w=None):
+    def __init__(self,n=None,d=None):
         self.numerator = n
         self.denominator = d
-        self.w = w
 
     def __str__(self):
-        if self.numerator == 0:
-            return "%d" % (self.w)
+        if self.denominator == 0:
+            return "undefined"
+        self.reduce()
+        s = 1
+        if (self.numerator < 0 and self.denominator >= 0) or (self.numerator >= 0 and self.denominator < 0):
+            s =-1
+        w = int(abs(self.numerator) / self.denominator)
+        x = abs(self.numerator) % self.denominator
+        if x == 0:
+            return "%d" % (s * w)
+        elif w == 0:
+            return "%d / %d" % (s * x , self.denominator)
         else:
-            return "%d %d / %d" % (self.w , self.numerator , self.denominator)
+            return "%d %d / %d" % (s * w , x , self.denominator)
+
+    def reduce(self):
+        s = 1
+        if (self.numerator < 0 and self.denominator >= 0) or (self.numerator >= 0 and self.denominator < 0):
+            s =-1
+        self.numerator = abs(self.numerator)
+        self.denominator = abs(self.denominator)
+        w = int(self.numerator / self.denominator)
+        x = self.numerator % self.denominator
+        d = self.denominator
+        c = x
+        while c > 1:
+            if (x % c) == 0 and (d % c) == 0:
+                x = x / c
+                d = d / c
+            c = c -1
+
+        self.numerator = s * ((w * d) + x)
+        self.denominator = d
 
     def numerator(self,n):
         self.numerator = n 
@@ -31,15 +59,12 @@ class fraction(object):
         xb = rhs.numerator * self.denominator
         x = xa + xb
         y = self.denominator * rhs.denominator
-        w = (x / y) + self.w
-        x = x % y
-
-        return fraction(x,y,w)
+        return fraction(x,y)
 
 if __name__ == '__main__':
-    a = fraction(1,2,1)
-    b = fraction(1,2,0)
-    c = a + b
+    a = fraction(1,-2)
+    b = fraction(1,-2)
+    c = a * b
     print(c)
     
     
