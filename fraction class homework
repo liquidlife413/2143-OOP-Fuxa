@@ -62,8 +62,8 @@ class fraction(object):
         return fraction(x,y)
 
 if __name__ == '__main__':
-    a = fraction(1,-2)
-    b = fraction(1,-2)
+    a = fraction(1,5)
+    b = fraction(6,9)
     c = a * b
     print(c)
     
